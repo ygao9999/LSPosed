@@ -75,6 +75,8 @@ jobs:
 
       - name: Build dependencies
         working-directory: libxposed
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME }}
         run: |
           echo 'org.gradle.caching=true' >> ~/.gradle/gradle.properties
           echo 'org.gradle.parallel=true' >> ~/.gradle/gradle.properties
@@ -86,6 +88,8 @@ jobs:
           ./gradlew publishToMavenLocal
 
       - name: Build with Gradle
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME }}
         run: |
           ./gradlew zipAll
 
