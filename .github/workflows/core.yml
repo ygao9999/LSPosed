@@ -75,22 +75,20 @@ jobs:
 
       - name: Build dependencies
         working-directory: libxposed
-        env:
-          JAVA_HOME: ${{ env.JAVA_HOME }}
         run: |
           echo 'org.gradle.caching=true' >> ~/.gradle/gradle.properties
           echo 'org.gradle.parallel=true' >> ~/.gradle/gradle.properties
           echo 'org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -XX:+UseParallelGC' >> ~/.gradle/gradle.properties
           echo 'android.native.buildOutput=verbose' >> ~/.gradle/gradle.properties
+          echo "org.gradle.java.home=$JAVA_HOME" >> ~/.gradle/gradle.properties
           cd api
           ./gradlew publishToMavenLocal
           cd ../service
           ./gradlew publishToMavenLocal
 
       - name: Build with Gradle
-        env:
-          JAVA_HOME: ${{ env.JAVA_HOME }}
         run: |
+          echo "org.gradle.java.home=$JAVA_HOME" >> ~/.gradle/gradle.properties
           ./gradlew zipAll
 
       - name: Prepare artifact
