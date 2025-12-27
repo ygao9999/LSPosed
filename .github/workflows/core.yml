@@ -100,16 +100,16 @@ jobs:
           echo "android.useAndroidX=true" >> service/service/gradle.properties
           cat api/gradle.properties
           cd api
-          ./gradlew publishToMavenLocal
+          ./gradlew -Dorg.gradle.java.home="$JAVA_HOME" publishToMavenLocal
           cd ../service
-          ./gradlew publishToMavenLocal
+          ./gradlew -Dorg.gradle.java.home="$JAVA_HOME" publishToMavenLocal
 
       - name: Build with Gradle
         run: |
           echo "org.gradle.java.home=$JAVA_HOME" > gradle.properties
           echo "android.useAndroidX=true" >> gradle.properties
           cat gradle.properties
-          ./gradlew zipAll
+          ./gradlew -Dorg.gradle.java.home="$JAVA_HOME" zipAll
 
       - name: Prepare artifact
         if: success()
