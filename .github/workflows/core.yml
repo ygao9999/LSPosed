@@ -83,9 +83,15 @@ jobs:
           # Force Gradle 8.7 for libxposed submodules
           sed -i 's/gradle-[0-9.]*-bin\.zip/gradle-8.7-bin.zip/g' api/gradle/wrapper/gradle-wrapper.properties
           sed -i 's/gradle-[0-9.]*-bin\.zip/gradle-8.7-bin.zip/g' service/gradle/wrapper/gradle-wrapper.properties
-          # Force Java 17 for each submodule
+          # Force Java 17 and AndroidX for each submodule
+          echo "JAVA_HOME is: $JAVA_HOME"
           echo "org.gradle.java.home=$JAVA_HOME" > api/gradle.properties
+          echo "android.useAndroidX=true" >> api/gradle.properties
+          echo "kotlin.jvm.target.validation.mode=warning" >> api/gradle.properties
           echo "org.gradle.java.home=$JAVA_HOME" > service/gradle.properties
+          echo "android.useAndroidX=true" >> service/gradle.properties
+          echo "kotlin.jvm.target.validation.mode=warning" >> service/gradle.properties
+          cat api/gradle.properties
           cd api
           ./gradlew publishToMavenLocal
           cd ../service
@@ -94,6 +100,7 @@ jobs:
       - name: Build with Gradle
         run: |
           echo "org.gradle.java.home=$JAVA_HOME" > gradle.properties
+          echo "android.useAndroidX=true" >> gradle.properties
           cat gradle.properties
           ./gradlew zipAll
 
