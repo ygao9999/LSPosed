@@ -80,9 +80,6 @@ jobs:
           echo 'org.gradle.parallel=true' >> ~/.gradle/gradle.properties
           echo 'org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -XX:+UseParallelGC' >> ~/.gradle/gradle.properties
           echo 'android.native.buildOutput=verbose' >> ~/.gradle/gradle.properties
-          # Force Gradle 8.5 for libxposed submodules
-          sed -i 's/gradle-[0-9.]*-bin\.zip/gradle-8.5-bin.zip/g' api/gradle/wrapper/gradle-wrapper.properties
-          sed -i 's/gradle-[0-9.]*-bin\.zip/gradle-8.5-bin.zip/g' service/gradle/wrapper/gradle-wrapper.properties
           cd api
           ./gradlew publishToMavenLocal
           cd ../service
