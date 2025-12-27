@@ -85,12 +85,19 @@ jobs:
           sed -i 's/gradle-[0-9.]*-bin\.zip/gradle-8.7-bin.zip/g' service/gradle/wrapper/gradle-wrapper.properties
           # Force Java 17 and AndroidX for each submodule
           echo "JAVA_HOME is: $JAVA_HOME"
+          # Configure api module
           echo "org.gradle.java.home=$JAVA_HOME" > api/gradle.properties
           echo "android.useAndroidX=true" >> api/gradle.properties
           echo "kotlin.jvm.target.validation.mode=warning" >> api/gradle.properties
+          # Configure service module and its submodules
           echo "org.gradle.java.home=$JAVA_HOME" > service/gradle.properties
           echo "android.useAndroidX=true" >> service/gradle.properties
           echo "kotlin.jvm.target.validation.mode=warning" >> service/gradle.properties
+          # Configure service/interface and service/service submodules
+          echo "org.gradle.java.home=$JAVA_HOME" > service/interface/gradle.properties
+          echo "android.useAndroidX=true" >> service/interface/gradle.properties
+          echo "org.gradle.java.home=$JAVA_HOME" > service/service/gradle.properties
+          echo "android.useAndroidX=true" >> service/service/gradle.properties
           cat api/gradle.properties
           cd api
           ./gradlew publishToMavenLocal
