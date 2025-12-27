@@ -83,6 +83,11 @@ jobs:
           # Force Gradle 8.7 for libxposed submodules
           sed -i 's/gradle-[0-9.]*-bin\.zip/gradle-8.7-bin.zip/g' api/gradle/wrapper/gradle-wrapper.properties
           sed -i 's/gradle-[0-9.]*-bin\.zip/gradle-8.7-bin.zip/g' service/gradle/wrapper/gradle-wrapper.properties
+          # Force Java 17 in build files - replace any Java version references
+          find service -name "build.gradle*" -type f -exec sed -i 's/JavaVersion\.VERSION_21/JavaVersion.VERSION_17/g' {} \;
+          find service -name "build.gradle*" -type f -exec sed -i 's/javaVersion = 21/javaVersion = 17/g' {} \;
+          find service -name "build.gradle*" -type f -exec sed -i 's/jvmTarget = "21"/jvmTarget = "17"/g' {} \;
+          find service -name "build.gradle*" -type f -exec sed -i 's/jvmToolchain(21)/jvmToolchain(17)/g' {} \;
           # Force Java 17 and AndroidX for each submodule
           echo "JAVA_HOME is: $JAVA_HOME"
           # Configure api module
